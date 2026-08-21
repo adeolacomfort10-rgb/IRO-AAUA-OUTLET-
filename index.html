@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IRO - Issues Reporting Outlet</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            color: #222;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #075e3b;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo span {
+            color: #f7c948;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #f7c948;
+        }
+
+        .hero {
+            min-height: 480px;
+            background:
+                linear-gradient(rgba(0, 65, 40, 0.85),
+                rgba(0, 65, 40, 0.85)),
+                linear-gradient(135deg, #087f4e, #063d29);
+
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 60px 7%;
+        }
+
+        .hero-content {
+            max-width: 750px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #f7c948;
+        }
+
+        .hero p {
+            font-size: 19px;
+            margin-bottom: 30px;
+            max-width: 650px;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            padding: 13px 24px;
+            border-radius: 6px;
+            background: #f7c948;
+            color: #17351f;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        .btn:hover {
+            background: #e6b52f;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #075e3b;
+        }
+
+        .section {
+            padding: 60px 7%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            color: #075e3b;
+            font-size: 30px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #075e3b;
+            margin-bottom: 10px;
+        }
+
+        .icon {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #075e3b;
+        }
+
+        .checkbox {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .checkbox input {
+            width: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success {
+            background: #dff6e8;
+            color: #075e3b;
+            border-left: 5px solid #075e3b;
+            padding: 18px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        .report-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .report-card h3 {
+            color: #075e3b;
+        }
+
+        .status {
+            display: inline-block;
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .about-box {
+            background: #e9f5ef;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        footer {
+            background: #063d29;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .privacy {
+            font-size: 13px;
+            color: #555;
+            margin-top: 15px;
+            background: #f7f7f7;
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav a {
+                margin: 0 6px;
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: 420px;
+            }
+
+            .form-container {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        IRO<span>.</span>
+    </div>
+
+    <nav>
+        <a onclick="showPage('home')">Home</a>
+        <a onclick="showPage('report')">Report Issue</a>
+        <a onclick="showPage('track')">Track Report</a>
+        <a onclick="showPage('about')">About</a>
+    </nav>
+</header>
+
+
+<!-- HOME PAGE -->
+<section id="home" class="page">
+
+    <div class="hero">
+        <div class="hero-content">
+
+            <h1>
+                Issues <span>Reporting</span> Outlet
+            </h1>
+
+            <p>
+                A simple and confidential platform for AAUA students
+                and surrounding indigenous communities to report issues,
+                concerns and challenges affecting them.
+            </p>
+
+            <button class="btn" onclick="showPage('report')">
+                Report an Issue
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="showPage('track')">
+                Track a Report
+            </button>
+
+        </div>
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-title">
+            <h2>What IRO Provides</h2>
+            <p>Making community issue reporting easier and more organized.</p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="icon">📝</div>
+                <h3>Easy Reporting</h3>
+                <p>
+                    Students and indigenes can submit information
+                    about issues affecting them.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🔎</div>
+                <h3>Report Tracking</h3>
+                <p>
+                    Each submitted issue receives a unique report ID
+                    for tracking purposes.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🔒</div>
+                <h3>Confidentiality</h3>
+                <p>
+                    The platform supports anonymous reporting for
+                    sensitive issues.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- REPORT PAGE -->
+<section id="report" class="page hidden">
+
+    <div class="section">
+
+        <div class="section-title">
+            <h2>Report an Issue</h2>
+            <p>
+                Please provide accurate information about the issue.
+            </p>
+        </div>
+
+        <div class="form-container">
+
+            <form id="reportForm">
+
+                <div class="form-group">
+                    <label>Who are you?</label>
+
+                    <select id="respondentType" required>
+                        <option value="">Select respondent type</option>
+                        <option value="AAUA Student">AAUA Student</option>
+                        <option value="Indigene">Indigene</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Community / Location</label>
+
+                    <select id="location" required>
+                        <option value="">Select location</option>
+                        <option value="AAUA Campus">AAUA Campus</option>
+                        <option value="Akungba-Akoko">Akungba-Akoko</option>
+                        <option value="Iwaro">Iwaro</option>
+                        <option value="Etioro">Etioro</option>
+                        <option value="Ayegunle">Ayegunle</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Issue Category</label>
+
+                    <select id="category" required>
+                        <option value="">Select category</option>
+                        <option value="Security">Security</option>
+                        <option value="Electricity">Electricity</option>
+                        <option value="Water Supply">Water Supply</option>
+                        <option value="Road / Transportation">
+                            Road / Transportation
+                        </option>
+                        <option value="Environmental Sanitation">
+                            Environmental Sanitation
+                        </option>
+                        <option value="Harassment">
+                            Harassment
+                        </option>
+                        <option value="Academic / Student Affairs">
+                            Academic / Student Affairs
+                        </option>
+                        <option value="Community Relations">
+                            Community Relations
+                        </option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Issue Title</label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Enter a short title for the issue"
+                        required>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Description of Issue</label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Describe the issue clearly..."
+                        required>
+                    </textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label>How urgent is this issue?</label>
+
+                    <select id="urgency" required>
+                        <option value="">Select urgency</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Email (Optional)</label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter email if you want feedback">
+                </div>
+
+
+                <div class="checkbox">
+
+                    <input
+                        type="checkbox"
+                        id="anonymous"
+                        onchange="toggleIdentity()">
+
+                    <label for="anonymous">
+                        Submit this report anonymously
+                    </label>
+
+                </div>
+
+
+                <div id="identitySection">
+
+                    <div class="form-group">
+
+                        <label>Name (Optional)</label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter your name">
+                    </div>
+
+                </div>
+
+
+                <div class="privacy">
+                    🔒 <strong>Privacy Notice:</strong>
+                    Please avoid submitting unnecessary personal or
+                    sensitive information. This prototype is intended
+                    for academic demonstration.
+                </div>
+
+
+                <br>
+
+                <button class="btn" type="submit">
+                    Submit Report
+                </button>
+
+            </form>
+
+
+            <div id="successMessage"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TRACK PAGE -->
+<section id="track" class="page hidden">
+
+    <div class="section">
+
+        <div class="section-title">
+            <h2>Track a Report</h2>
+            <p>
+                Enter your report ID to check the current status.
+            </p>
+        </div>
+
+
+        <div class="form-container">
+
+            <div class="form-group">
+
+                <label>Report ID</label>
+
+                <input
+                    type="text"
+                    id="searchID"
+                    placeholder="Example: IRO-123456">
+
+            </div>
+
+            <button class="btn" onclick="trackReport()">
+                Search Report
+            </button>
+
+            <div id="trackingResult"></div>
+
+        </div>
+
+
+        <div id="allReports" class="form-container"
+             style="margin-top:30px;">
+
+            <h3 style="color:#075e3b;">
+                Submitted Reports (Prototype)
+            </h3>
+
+            <br>
+
+            <div id="reportList"></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT PAGE -->
+<section id="about" class="page hidden">
+
+    <div class="section">
+
+        <div class="section-title">
+            <h2>About IRO</h2>
+        </div>
+
+        <div class="about-box">
+
+            <h3>Issues Reporting Outlet</h3>
+
+            <br>
+
+            <p>
+                IRO is a proposed web-based platform designed to
+                provide an organized channel for reporting issues
+                affecting AAUA students and surrounding indigenous
+                communities.
+            </p>
+
+            <br>
+
+            <p>
+                The communities considered in this project include
+                Akungba-Akoko, Iwaro, Etioro and Ayegunle, as well as
+                the AAUA student community.
+            </p>
+
+            <br>
+
+            <h3>Project Objectives</h3>
+
+            <ul>
+                <li>Provide an accessible reporting channel.</li>
+                <li>Improve communication between stakeholders.</li>
+                <li>Allow submitted reports to be tracked.</li>
+                <li>Support anonymous reporting.</li>
+                <li>Improve documentation of community issues.</li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © 2026 IRO - Issues Reporting Outlet
+    </p>
+
+    <p>
+        Academic Project Prototype
+    </p>
+
+</footer>
+
+
+<script>
+
+    // Show selected page
+    function showPage(pageID) {
+
+        const pages = document.querySelectorAll(".page");
+
+        pages.forEach(page => {
+            page.classList.add("hidden");
+        });
+
+        document.getElementById(pageID)
+            .classList.remove("hidden");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+        if (pageID === "track") {
+            displayReports();
+        }
+    }
+
+
+    // Generate report ID
+    function generateReportID() {
+
+        const randomNumber =
+            Math.floor(100000 + Math.random() * 900000);
+
+        return "IRO-" + randomNumber;
+    }
+
+
+    // Anonymous reporting
+    function toggleIdentity() {
+
+        const anonymous =
+            document.getElementById("anonymous").checked;
+
+        const identity =
+            document.getElementById("identitySection");
+
+        if (anonymous) {
+            identity.style.display = "none";
+        } else {
+            identity.style.display = "block";
+        }
+    }
+
+
+    // Submit report
+    document.getElementById("reportForm")
+        .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const reportID = generateReportID();
+
+        const anonymous =
+            document.getElementById("anonymous").checked;
+
+        const report = {
+
+            id: reportID,
+
+            respondent:
+                document.getElementById("respondentType").value,
+
+            location:
+                document.getElementById("location").value,
+
+            category:
+                document.getElementById("category").value,
+
+            title:
+                document.getElementById("title").value,
+
+            description:
+                document.getElementById("description").value,
+
+            urgency:
+                document.getElementById("urgency").value,
+
+            email:
+                document.getElementById("email").value,
+
+            name:
+                anonymous
+                    ? "Anonymous"
+                    : document.getElementById("name").value,
+
+            status: "Pending",
+
+            date:
+                new Date().toLocaleString()
+
+        };
+
+
+        let reports =
+            JSON.parse(localStorage.getItem("iroReports")) || [];
+
+
+        reports.push(report);
+
+
+        localStorage.setItem(
+            "iroReports",
+            JSON.stringify(reports)
+        );
+
+
+        document.getElementById("successMessage")
+            .innerHTML = `
+
+                <div class="success">
+
+                    <strong>Report submitted successfully!</strong>
+
+                    <p>
+                        Your Report ID is:
+                        <strong>${reportID}</strong>
+                    </p>
+
+                    <p>
+                        Please save this ID so you can track
+                        your report later.
+                    </p>
+
+                </div>
+            `;
+
+
+        document.getElementById("reportForm").reset();
+
+        document.getElementById("identitySection")
+            .style.display = "block";
+
+    });
+
+
+    // Track report
+    function trackReport() {
+
+        const searchID =
+            document.getElementById("searchID")
+                .value
+                .trim()
+                .toUpperCase();
+
+        const reports =
+            JSON.parse(localStorage.getItem("iroReports")) || [];
+
+        const report =
+            reports.find(item =>
+                item.id === searchID
+            );
+
+
+        const result =
+            document.getElementById("trackingResult");
+
+
+        if (!report) {
+
+            result.innerHTML = `
+
+                <div class="success"
+                     style="border-color:#b02a37;
+                            color:#842029;
+                            background:#f8d7da;">
+
+                    No report was found with ID
+                    <strong>${searchID}</strong>.
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+
+        result.innerHTML = `
+
+            <div class="report-card"
+                 style="margin-top:20px;">
+
+                <h3>${report.title}</h3>
+
+                <p>
+                    <strong>Report ID:</strong>
+                    ${report.id}
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    ${report.category}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    ${report.location}
+                </p>
+
+                <p>
+                    <strong>Urgency:</strong>
+                    ${report.urgency}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${report.date}
+                </p>
+
+                <span class="status">
+                    ${report.status}
+                </span>
+
+            </div>
+
+        `;
+    }
+
+
+    // Display reports
+    function displayReports() {
+
+        const reports =
+            JSON.parse(localStorage.getItem("iroReports")) || [];
+
+        const list =
+            document.getElementById("reportList");
+
+
+        if (reports.length === 0) {
+
+            list.innerHTML =
+                "<p>No reports have been submitted yet.</p>";
+
+            return;
+        }
+
+
+        list.innerHTML = "";
+
+
+        reports.forEach(report => {
+
+            const card =
+                document.createElement("div");
+
+            card.className = "report-card";
+
+
+            card.innerHTML = `
+
+                <h3>${report.title}</h3>
+
+                <p>
+                    <strong>ID:</strong>
+                    ${report.id}
+                </p>
+
+                <p>
+                    <strong>Category:</strong>
+                    ${report.category}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    ${report.location}
+                </p>
+
+                <p>
+                    <strong>Respondent:</strong>
+                    ${report.respondent}
+                </p>
+
+                <span class="status">
+                    ${report.status}
+                </span>
+
+            `;
+
+
+            list.appendChild(card);
+
+        });
+
+    }
+
+
+    // Load reports when page opens
+    displayReports();
+
+</script>
+
+</body>
+</html>
